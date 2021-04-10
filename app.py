@@ -5,7 +5,7 @@ Werkzeug Documentation:  http://werkzeug.pocoo.org/documentation/
 This file creates your application.
 """
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for, flash, Response
 
 app = Flask(__name__)
 
@@ -23,8 +23,6 @@ def page_not_found(error):
 @app.route('/')
 def home():
     return render_template('ml5index.html')
-@app.route('/about')
-def about():
-    return render_template('about.html')
+    
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=8080)

@@ -1,8 +1,16 @@
+// Copyright (c) 2019 ml5
+//
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
+
+/* ===
+ml5 Example
+PoseNet example using p5.js
+=== */
+
 let video;
 let poseNet;
 let poses = [];
-
-
 
 function setup() {
   createCanvas(640, 480);
@@ -15,8 +23,6 @@ function setup() {
   // with an array every time new poses are detected
   poseNet.on("pose", function(results) {
     poses = results;
-    
-    
   });
   // Hide the video element, and just show the canvas
   video.hide();
@@ -26,40 +32,13 @@ function modelReady() {
   select("#status").html("Model Loaded");
 }
 
-function send(){
-  for (let i = 0; i < poses.length; i += 1) {
-    // For each pose detected, loop through all the keypoints
-    const pose = poses[i].pose;
-    for (let j = 0; j < pose.keypoints.length; j += 1) {
-      // A keypoint is an object describing a body part (like rightArm or leftShoulder)
-      const keypoint = pose.keypoints[j];
-      // Only draw an ellipse is the pose probability is bigger than 0.2
-      if (keypoint.score > 0.2) {
-        fetch(`/test34`,
-  {
-    method:"POST",
-    credentials:"include",
-    body:  JSON.stringify(poses),
-    cache: "no-cache",
-    headers: new Headers({
-      "content-type": "application/json"
-    })
-  })   
-      }
-    }
-  }
-  
- 
-}
 function draw() {
   image(video, 0, 0, width, height);
 
   // We can call both functions to draw all keypoints and the skeletons
   drawKeypoints();
   drawSkeleton();
-  send();
 }
-
 
 // A function to draw ellipses over the detected keypoints
 function drawKeypoints() {
